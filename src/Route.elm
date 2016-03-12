@@ -7,7 +7,7 @@ type Action
     = HopAction Hop.Action
     | ShowIndex Hop.Payload
     | ShowPost Hop.Payload
-    | ShowNotFound
+    | ShowNotFound Hop.Payload
 
 type AvailableView
     = Index
@@ -29,9 +29,11 @@ update : Action -> Model -> (Model, Effects Action)
 update action model =
     case action of
         ShowIndex payload ->
-            ( model | view = Index,  Effects.none )
+            ( { model | view = Index },  Effects.none )
         ShowPost payload ->
-            ( model | view = ViewPost, Effects.none)
+            ( { model | view = ViewPost }, Effects.none  )
+        ShowNotFound payload ->
+            ( { model | view = NotFound }, Effects.none  )
         _ -> (model, Effects.none)
 
 
@@ -39,7 +41,7 @@ update action model =
 
 routes : List (String, Hop.Payload -> Action)
 routes =
-    [ ( "/", Index )
+    [ ( "/", ShowIndex )
     , ( "/blog/:year/:month/:slug", ShowPost )
     ]
 

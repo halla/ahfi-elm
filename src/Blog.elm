@@ -1,23 +1,26 @@
-module Blog (init, view, update) where
+module Blog (init, view, update, Post, Action) where
 
 import Html exposing (text, div, p, ul, li, a)
 import Html.Attributes exposing (class)
 import Effects exposing (Effects)
 import Signal
-
+import Route
 
 type alias Post =
     { title: String }
 
-type alias Model =
-    List Post
+type alias Model = List Post
+
 
 posts =
     [{ title = "hep"}]
 
+initialModel = posts
+
+
 init : (Model, Effects Action)
 init =
-    (posts, Effects.none)
+    (initialModel, Effects.none)
 
 view : Signal.Address Action -> Model -> Html.Html
 view action model =
